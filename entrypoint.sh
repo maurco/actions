@@ -12,6 +12,10 @@ if [ -z $BUCKET_NAME ] || [ -z $CLOUDFRONT_ID ]; then
 	exit 1;
 fi
 
+if [ -n $GITHUB_WORKSPACE ]; then
+	cd $GITHUB_WORKSPACE
+fi
+
 aws s3 sync --delete . s3://$BUCKET_NAME | {
 	while read -r i;
  	do
