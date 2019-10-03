@@ -1,1 +1,1 @@
-# s3-deploy-action
+# S3 Deploy Action
