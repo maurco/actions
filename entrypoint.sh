@@ -2,8 +2,9 @@
 
 set -e
 
-BUCKET_NAME=$1
-CLOUDFRONT_ID=$2
+DEPLOY_DIR=$1
+BUCKET_NAME=$2
+CLOUDFRONT_ID=$3
 
 FILES=()
 
@@ -15,6 +16,8 @@ fi
 if [ -n $GITHUB_WORKSPACE ]; then
 	cd $GITHUB_WORKSPACE
 fi
+
+cd $DEPLOY_DIR
 
 aws s3 sync --delete . s3://$BUCKET_NAME | {
 	while read -r i;

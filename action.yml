@@ -5,6 +5,10 @@ branding:
   color: blue
   icon: database  
 inputs:
+  deploy_dir:
+    description: Public directory to deploy to S3
+    required: false
+    default: ./
   bucket_name:
     description: Name of the S3 bucket
     required: true
@@ -15,5 +19,6 @@ runs:
   using: docker
   image: Dockerfile
   args:
+    - ${{ inputs.deploy_dir }}
     - ${{ inputs.bucket_name }}
     - ${{ inputs.cloudfront_id }}
