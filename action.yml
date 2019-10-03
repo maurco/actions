@@ -1,5 +1,9 @@
 name: S3 Deploy
+author: Maurer Labs, LLC
 description: Deploys static website files to S3 and invalidates them in a CloudFront distribution
+branding:
+  color: blue
+  icon: database  
 inputs:
   bucket_name:
     description: Name of the S3 bucket
@@ -10,4 +14,6 @@ inputs:
 runs:
   using: docker
   image: Dockerfile
-  args: ${{ inputs.bucket_name }} ${{ inputs.cloudfront_id }}
+  args:
+    - ${{ inputs.bucket_name }}
+    - ${{ inputs.cloudfront_id }}
