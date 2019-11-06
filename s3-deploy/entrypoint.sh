@@ -33,7 +33,7 @@ aws s3 sync --delete . s3://$BUCKET_NAME | {
 		IFS=" "; shift
 
 		if [ "$INVALIDATE_ALL" = "true" ]; then
-			PATHS="/*"
+			PATHS="'/*'"
 		else
 			PATHS=$(echo "${FILES[@]}")
 		fi
