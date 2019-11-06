@@ -5,6 +5,7 @@ set -e
 DEPLOY_DIR=$1
 BUCKET_NAME=$2
 CLOUDFRONT_ID=$3
+INVALIDATE_ALL=$4
 
 FILES=()
 
@@ -31,9 +32,15 @@ aws s3 sync --delete . s3://$BUCKET_NAME | {
 	if [ -n $CLOUDFRONT_ID ] && [ ${#FILES[@]} -gt 0 ]; then
 		IFS=" "; shift
 
+		if [ "$INVALIDATE_ALL" = "true" ]; then
+			PATHS="/*"
+		else
+			PATHS=$(echo "${FILES[@]}")
+		fi
+
 		aws cloudfront create-invalidation \
 			--distribution-id $CLOUDFRONT_ID \
-			--paths $(echo "${FILES[@]}") \
+			--paths $PATHS \
 			--output text
 	fi
 }

@@ -15,6 +15,10 @@ inputs:
   cloudfront_id:
     description: ID of the CloudFront distribution
     required: false
+  invalidate_all:
+    description: Whether to invalidate all paths, or just the uploaded paths
+    required: false
+    default: false
 runs:
   using: docker
   image: Dockerfile
@@ -22,3 +26,4 @@ runs:
     - ${{ inputs.deploy_dir }}
     - ${{ inputs.bucket_name }}
     - ${{ inputs.cloudfront_id }}
+    - ${{ inputs.invalidate_all }}
