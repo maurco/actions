@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -Eeuo pipefail
 
 DEPLOY_DIR=$1
 BUCKET_NAME=$2
@@ -9,16 +9,13 @@ INVALIDATE_ALL=$4
 
 FILES=()
 
-if [ -z $BUCKET_NAME ]; then
-	echo "Missing argument: \`bucket_name\`"
-	exit 1;
-fi
-
-if [ -n $GITHUB_WORKSPACE ]; then
+if [ -n "${GITHUB_WORKSPACE-}" ]; then
 	cd $GITHUB_WORKSPACE
 fi
 
-cd $DEPLOY_DIR
+if [ -n "${DEPLOY_DIR-}" ]; then
+	cd $DEPLOY_DIR
+fi
 
 aws s3 sync --delete . s3://$BUCKET_NAME | {
 	while read -r i;
@@ -29,7 +26,7 @@ aws s3 sync --delete . s3://$BUCKET_NAME | {
  			sed -E "s/\/index.html/\//")")
 	done
 
-	if [ -n $CLOUDFRONT_ID ] && [ ${#FILES[@]} -gt 0 ]; then
+	if [ -n "${CLOUDFRONT_ID-}" ] && [ ${#FILES[@]} -gt 0 ]; then
 		if [ "$INVALIDATE_ALL" != "true" ]; then
 			PATHS=$(printf "%q " "${FILES[@]}")
 		fi

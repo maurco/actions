@@ -1,0 +1,20 @@
+name: Hugo Build
+author: Maurer Labs, LLC
+description: Builds a site using the Hugo static site generator
+branding:
+  color: blue
+  icon: hexagon
+inputs:
+  build_command:
+    description: Command to use when building the site
+    required: false
+    default: hugo --gc --minify --path-warnings --cleanDestinationDir
+  base_dir:
+    description: Base directory to run build from
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - ${{ inputs.build_command }}
+    - ${{ inputs.base_dir }}

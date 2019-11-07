@@ -3,12 +3,11 @@ author: Maurer Labs, LLC
 description: Deploys static website files to S3 and invalidates them in a CloudFront distribution
 branding:
   color: blue
-  icon: database  
+  icon: database
 inputs:
   deploy_dir:
     description: Public directory to deploy to S3
     required: false
-    default: ./
   bucket_name:
     description: Name of the S3 bucket
     required: true
