@@ -2,7 +2,7 @@
 
 set -Eeuo pipefail
 
-BUILD_COMMAND=$1
+COMMAND=$1
 BASE_DIR=$2
 
 if [ -n "${GITHUB_WORKSPACE-}" ]; then
@@ -13,4 +13,4 @@ if [ -n "${BASE_DIR-}" ]; then
 	cd $BASE_DIR
 fi
 
-$BUILD_COMMAND
+$COMMAND
