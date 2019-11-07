@@ -17,7 +17,7 @@ if [ -n "${DEPLOY_DIR-}" ]; then
 	cd $DEPLOY_DIR
 fi
 
-aws s3 sync --delete --dryrun . s3://$BUCKET_NAME | {
+aws s3 sync --delete . s3://$BUCKET_NAME | {
 	while read -r i;
  	do
 		FILES+=("/$(echo $i |\
