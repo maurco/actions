@@ -2,10 +2,10 @@
 
 set -Eeuo pipefail
 
-DEPLOY_DIR=$1
-BUCKET_NAME=$2
-CLOUDFRONT_ID=$3
-INVALIDATE_ALL=$4
+DEPLOY_DIR=${1-}
+BUCKET_NAME=${2-}
+CLOUDFRONT_ID=${3-}
+INVALIDATE_ALL=${4-}
 
 FILES=()
 
@@ -17,7 +17,7 @@ if [ -n "${DEPLOY_DIR-}" ]; then
 	cd $DEPLOY_DIR
 fi
 
-aws s3 sync --delete . s3://$BUCKET_NAME | {
+aws s3 sync --delete --dryrun . s3://$BUCKET_NAME | {
 	while read -r i;
  	do
 		FILES+=("/$(echo $i |\
@@ -27,7 +27,7 @@ aws s3 sync --delete . s3://$BUCKET_NAME | {
 	done
 
 	if [ -n "${CLOUDFRONT_ID-}" ] && [ ${#FILES[@]} -gt 0 ]; then
-		if [ "$INVALIDATE_ALL" != "true" ]; then
+		if [ "${INVALIDATE_ALL-}" != "true" ]; then
 			PATHS=$(printf "%q " "${FILES[@]}")
 		fi
 
