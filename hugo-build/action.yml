@@ -8,13 +8,13 @@ inputs:
   command:
     description: Command to use when building the site
     required: false
-    default: hugo --gc --minify --path-warnings --cleanDestinationDir
   base_dir:
     description: Base directory to run build from
     required: false
+  environment:
+    description: Base directory to run build from
+    required: false
+    default: development
 runs:
   using: docker
   image: Dockerfile
-  args:
-    - ${{ inputs.command }}
-    - ${{ inputs.base_dir }}
