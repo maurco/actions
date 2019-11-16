@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -Eeuo pipefail
-source $HOME/.bashrc
+source /root/.bashrc
 
 if [ -n "${GITHUB_WORKSPACE-}" ]; then
 	cd $GITHUB_WORKSPACE
