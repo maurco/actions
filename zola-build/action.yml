@@ -16,9 +16,6 @@ inputs:
   base_dir:
     description: Base directory to run the build command from
     required: false
-  base_url:
-    description: Base URL of the deployed website, needed for sitemap.xml
-    required: true
   output_dir:
     description: Output directory of the compiled site
     required: false
