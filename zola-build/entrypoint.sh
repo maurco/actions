@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -Eeuo pipefail
+source $HOME/.bashrc
 
 if [ -n "${GITHUB_WORKSPACE-}" ]; then
 	cd $GITHUB_WORKSPACE
@@ -14,12 +15,8 @@ if [ -n "${INPUT_PREBUILD-}" ]; then
 	$INPUT_PREBUILD
 fi
 
-zola check \
-	--config $INPUT_CONFIG_FILE
-
-zola build \
-	--config $INPUT_CONFIG_FILE \
-	--output-dir $INPUT_OUTPUT_DIR
+zola --config $INPUT_CONFIG_FILE check
+zola --config $INPUT_CONFIG_FILE build --output-dir $INPUT_OUTPUT_DIR
 
 if [ -n "${INPUT_POSTBUILD-}" ]; then
 	$INPUT_POSTBUILD
