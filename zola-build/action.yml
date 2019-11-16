@@ -34,5 +34,5 @@ runs:
   using: docker
   image: Dockerfile
   args:
-    - --build-arg NODE_VERSION=${{ inputs.node_version }}
-    - --build-arg ZOLA_VERSION=${{ inputs.zola_version }}
+    - '--build-arg NODE_VERSION=${{ inputs.node_version }}'
+    - '--build-arg ZOLA_VERSION=${{ inputs.zola_version }}'
