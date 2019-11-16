@@ -5,11 +5,9 @@ RUN apt-get install -y tar wget
 
 RUN rm -r /var/cache/apt
 
+ENV NVM_DIR /nvm
 ENV NODE_VERSION 12
 ENV ZOLA_VERSION 0.9.0
-
-ENV NVM_DIR /usr/local/nvm
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 RUN mkdir -p $NVM_DIR
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
