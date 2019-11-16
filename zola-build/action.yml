@@ -1,0 +1,41 @@
+name: Zola Build
+author: Maurer Labs, LLC
+description: Builds a site using the Zola static site generator
+branding:
+  color: black
+  icon: package
+inputs:
+  node_version:
+    description: Version of Node to install in container
+    required: false
+    default: 12
+  zola_version:
+    description: Version of Zola to install in container
+    required: false
+    default: 0.9.0
+  base_dir:
+    description: Base directory to run the build command from
+    required: false
+  base_url:
+    description: Base URL of the deployed website, needed for sitemap.xml
+    required: true
+  output_dir:
+    description: Output directory of the compiled site
+    required: false
+    default: public
+  config_file:
+    description: Zola config file to use for build
+    required: false
+    default: config.toml
+  prebuild:
+    description: Command to run before the Zola site is built
+    required: false
+  postbuild:
+    description: Command to run after the Zola site is built
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - --build-arg NODE_VERSION=${{ inputs.node_version }}
+    - --build-arg ZOLA_VERSION=${{ inputs.zola_version }}

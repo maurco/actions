@@ -5,14 +5,14 @@ branding:
   color: blue
   icon: database
 inputs:
+  base_dir:
+    description: Public directory to deploy to S3
+    required: false
   bucket_name:
     description: Name of the S3 bucket
     required: true
   cloudfront_id:
     description: ID of the CloudFront distribution
-    required: false
-  base_dir:
-    description: Public directory to deploy to S3
     required: false
   invalidate_wildcard:
     description: Whether to invalidate all paths, or just the uploaded paths
