@@ -8,6 +8,11 @@ RUN rm -r /var/cache/apt
 ENV NODE_VERSION 12
 ENV ZOLA_VERSION 0.9.0
 
+ENV NVM_DIR /nvm
+ENV NODE_PATH "$NVM_DIR/v$NODE_VERSION/lib/node_modules"
+ENV PATH "$NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH"
+
+RUN mkdir -p $NVM_DIR
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.1/install.sh | bash
 RUN wget -qO- https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz |\
 	tar xz -C /usr/local/bin
