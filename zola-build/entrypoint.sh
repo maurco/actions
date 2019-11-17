@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -Eeuo pipefail
-source /root/.bashrc
 
 if [ -n "${GITHUB_WORKSPACE-}" ]; then
 	cd $GITHUB_WORKSPACE
@@ -11,13 +10,20 @@ if [ -n "${INPUT_BASE_DIR-}" ]; then
 	cd $INPUT_BASE_DIR
 fi
 
-if [ -n "${INPUT_PREBUILD-}" ]; then
-	$INPUT_PREBUILD
+ARGS_PRE=()
+ARGS_POST=()
+
+if [ -n "${INPUT_CONFIG_FILE-}" ]; then
+	ARGS_PRE+=(--config "$INPUT_CONFIG_FILE")
 fi
 
-zola --config $INPUT_CONFIG_FILE check
-zola --config $INPUT_CONFIG_FILE build --output-dir $INPUT_OUTPUT_DIR
-
-if [ -n "${INPUT_POSTBUILD-}" ]; then
-	$INPUT_POSTBUILD
+if [ -n "${INPUT_BASE_URL-}" ]; then
+	ARGS_POST+=(--base-url "$INPUT_BASE_URL")
 fi
+
+if [ -n "${INPUT_OUTPUT_DIR-}" ]; then
+	ARGS_POST+=(--output-dir "$INPUT_OUTPUT_DIR")
+fi
+
+zola "${ARGS_PRE[@]}" check
+zola "${ARGS_PRE[@]}" build "${ARGS_POST[@]}"

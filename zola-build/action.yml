@@ -8,19 +8,14 @@ inputs:
   base_dir:
     description: Base directory to run the build command from
     required: false
-  output_dir:
-    description: Output directory of the compiled site
-    required: false
-    default: public
   config_file:
     description: Zola config file to use for build
     required: false
-    default: config.toml
-  prebuild:
-    description: Command to run before the Zola site is built
+  base_url:
+    description: Base URL to use for links and the sitemap
     required: false
-  postbuild:
-    description: Command to run after the Zola site is built
+  output_dir:
+    description: Output directory of the compiled site
     required: false
 runs:
   using: docker
