@@ -1,9 +1,6 @@
 name: Hugo Build
 author: Maurer Labs, LLC
 description: Builds a site using the Hugo static site generator
-branding:
-  color: blue
-  icon: hexagon
 inputs:
   command:
     description: Command to use when building the site

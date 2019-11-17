@@ -1,0 +1,11 @@
+name: Setup Elm
+author: Maurer Labs, LLC
+description: Installs Elm to the system
+inputs:
+  elm_version:
+    description: Version of Elm to install
+    required: false
+    default: 0.19.1
+runs:
+  using: docker
+  image: Dockerfile

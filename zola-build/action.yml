@@ -1,9 +1,6 @@
 name: Zola Build
 author: Maurer Labs, LLC
 description: Builds a site using the Zola static site generator
-branding:
-  color: black
-  icon: package
 inputs:
   base_dir:
     description: Base directory to run the build command from
