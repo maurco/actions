@@ -28,4 +28,4 @@ fi
 zola "${ARGS_PRE[@]}" check
 zola "${ARGS_PRE[@]}" build "${ARGS_POST[@]}"
 
-chmod 775 ${INPUT_OUTPUT_DIR:-public}
+chmod 777 ${INPUT_OUTPUT_DIR:-public}
