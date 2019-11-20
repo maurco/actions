@@ -15,7 +15,11 @@ echo "=> Starting deployment"
 JQ="jq -Merc"
 COMMIT=$(git rev-parse --short HEAD~0)
 LOCAL_IMAGE="ecs-deploy-$COMMIT"
-REMOTE_IMAGE=$(aws sts get-caller-identity | $JQ ".Account").dkr.ecr.$(aws configure get region).amazonaws.com/$INPUT_APP_NAME
+
+echo "=> Getting AWS account details"
+AWS_REGION=$(aws configure get region)
+AWS_ACCOUNT_ID=$(aws sts get-caller-identity | $JQ ".Account")
+REMOTE_IMAGE=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$INPUT_APP_NAME
 
 echo "=> Logging into ECR"
 $(aws ecr get-login --no-include-email)
