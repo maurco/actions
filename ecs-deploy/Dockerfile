@@ -1,7 +1,7 @@
-FROM alpine:3
+FROM docker:19
 
 RUN apk update
-RUN apk add --update bash python3
+RUN apk add --update bash git jq openssl python3
 RUN rm /var/cache/apk/*
 
 RUN pip3 install --upgrade pip

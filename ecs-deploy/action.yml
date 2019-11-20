@@ -1,0 +1,19 @@
+name: ECS Deploy
+author: Maurer Labs, LLC
+description: Deploys a new app version to AWS ECS
+inputs:
+  base_dir:
+    description: Directory to build docker image from
+    required: false
+  app_name:
+    description: Name of the ECS service, task definition, and ECR repository
+    required: true
+  cluster_name:
+    description: Name of the ECS cluster
+    required: true
+  docker_build_args:
+    description: Build args to send to the docker build command
+    required: false
+runs:
+  using: docker
+  image: Dockerfile
