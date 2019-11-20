@@ -10,11 +10,8 @@ if [ -n "${INPUT_BASE_DIR-}" ]; then
 	cd $INPUT_BASE_DIR
 fi
 
-if [ -n "${INPUT_AWS_REGION-}" ]; then
-	export AWS_DEFAULT_REGION=$INPUT_AWS_REGION
-fi
-
 echo "=> Starting deployment"
+export AWS_DEFAULT_REGION=$INPUT_AWS_REGION
 
 JQ="jq -Merc"
 COMMIT=$(git rev-parse --short HEAD~0)
@@ -27,8 +24,8 @@ echo "=> Logging into ECR"
 $(aws ecr get-login --no-include-email)
 
 echo "=> Building $LOCAL_IMAGE:latest"
-docker build ${BUILD_ARGS-} -t $LOCAL_IMAGE:latest . \
-	$(echo ${INPUT_BUILD_ARGS:-[]} | $JQ ".[] |= \"--build-arg \" + . | join(\" \")")
+docker build -t $LOCAL_IMAGE:latest . \
+	$(echo ${INPUT_DOCKER_BUILD_ARGS:-[]} | $JQ ".[] |= \"--build-arg \" + . | join(\" \")")
 
 echo "=> Pushing $LOCAL_IMAGE:latest"
 docker tag $LOCAL_IMAGE:latest $REMOTE_IMAGE:latest
