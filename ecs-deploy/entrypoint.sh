@@ -10,16 +10,18 @@ if [ -n "${INPUT_BASE_DIR-}" ]; then
 	cd $INPUT_BASE_DIR
 fi
 
+if [ -n "${INPUT_AWS_REGION-}" ]; then
+	export AWS_DEFAULT_REGION=$INPUT_AWS_REGION
+fi
+
 echo "=> Starting deployment"
 
 JQ="jq -Merc"
 COMMIT=$(git rev-parse --short HEAD~0)
 LOCAL_IMAGE="ecs-deploy-$COMMIT"
 
-echo "=> Getting AWS account details"
-AWS_REGION=$(aws configure get region)
 AWS_ACCOUNT_ID=$(aws sts get-caller-identity | $JQ ".Account")
-REMOTE_IMAGE=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$INPUT_APP_NAME
+REMOTE_IMAGE=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$INPUT_APP_NAME
 
 echo "=> Logging into ECR"
 $(aws ecr get-login --no-include-email)
