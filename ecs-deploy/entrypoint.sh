@@ -10,9 +10,11 @@ if [ -n "${INPUT_BASE_DIR-}" ]; then
 	cd $INPUT_BASE_DIR
 fi
 
+echo "=> Starting deployment"
+
 JQ="jq -Merc"
-VERSION=$(git rev-parse HEAD~0)
-LOCAL_IMAGE="ecs-deploy-$(openssl rand -hex 4)"
+COMMIT=$(git rev-parse --short HEAD~0)
+LOCAL_IMAGE="ecs-deploy-$COMMIT"
 REMOTE_IMAGE=$(aws sts get-caller-identity | $JQ ".Account").dkr.ecr.$(aws configure get region).amazonaws.com/$INPUT_APP_NAME
 
 echo "=> Logging into ECR"
@@ -27,10 +29,10 @@ docker tag $LOCAL_IMAGE:latest $REMOTE_IMAGE:latest
 docker push $REMOTE_IMAGE:latest
 docker rmi $REMOTE_IMAGE:latest
 
-echo "=> Pushing $LOCAL_IMAGE:$VERSION"
-docker tag $LOCAL_IMAGE:latest $REMOTE_IMAGE:$VERSION
-docker push $REMOTE_IMAGE:$VERSION
-docker rmi $REMOTE_IMAGE:$VERSION
+echo "=> Pushing $LOCAL_IMAGE:$COMMIT"
+docker tag $LOCAL_IMAGE:latest $REMOTE_IMAGE:$COMMIT
+docker push $REMOTE_IMAGE:$COMMIT
+docker rmi $REMOTE_IMAGE:$COMMIT
 
 echo "=> Fetching existing task definition"
 TASK_DEF_OLD=$(
@@ -40,7 +42,7 @@ TASK_DEF_OLD=$(
 echo "=> Registering new task definition"
 TASK_DEF_PENDING=$(
 	echo "$TASK_DEF_OLD" |\
-		$JQ ".taskDefinition.containerDefinitions[0].image = \"$REMOTE_IMAGE:$VERSION\"" |\
+		$JQ ".taskDefinition.containerDefinitions[0].image = \"$REMOTE_IMAGE:$COMMIT\"" |\
 		$JQ ".taskDefinition | del(.taskDefinitionArn) | del(.revision) | del(.status) | del(.requiresAttributes) | del(.compatibilities)"
 )
 
@@ -83,4 +85,4 @@ aws ecs wait services-stable \
     --cluster $INPUT_CLUSTER_NAME \
     --services $INPUT_APP_NAME
 
-echo "=> Done"
+echo "=> Deployed"
