@@ -1,8 +1,13 @@
 FROM rust:1-alpine as build
+
 WORKDIR /app
-COPY . .
+COPY ./$ACTION .
+
 RUN cargo build --release
 
 FROM alpine
-COPY --from=build /app/target/release/hello-world /app
+
+ARG ACTION
+COPY --from=build /app/target/release/$ACTION /app
+
 ENTRYPOINT ["/app"]
