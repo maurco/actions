@@ -1,7 +1,7 @@
 name: Hello World
 author: Maurer Labs, LLC
 inputs:
-  who-to-greet:
+  who_to_greet:
     description: Who to greet
     required: true
 outputs:
