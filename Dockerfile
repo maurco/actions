@@ -3,7 +3,7 @@ FROM rust:1-alpine as build
 ARG ACTION
 WORKDIR /app
 COPY $ACTION .
-RUN pwd && ls -a
+RUN echo $ACTION
 
 RUN cargo build --release
 
