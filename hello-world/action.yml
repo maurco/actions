@@ -11,4 +11,5 @@ outputs:
 runs:
   using: docker
   image: ../Dockerfile
-  args: --build-arg ACTION=hello-world
+  args:
+    - --build-arg ACTION=hello-world
