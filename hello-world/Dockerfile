@@ -1,4 +1,5 @@
 FROM rust:1.39-alpine
+WORKDIR /app
 COPY . .
 RUN cargo build --release
-ENTRYPOINT ["target/release/hello-world"]
+ENTRYPOINT ["/app/target/release/hello-world"]
