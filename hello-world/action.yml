@@ -1,5 +1,6 @@
 name: Hello World
 author: Maurer Labs, LLC
+description: Used for internal testing
 inputs:
   who_to_greet:
     description: Who to greet
