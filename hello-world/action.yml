@@ -11,4 +11,4 @@ runs:
   using: node12
   main: ../index.js
   args:
-    - hello-world
+    - bin/hello-world
