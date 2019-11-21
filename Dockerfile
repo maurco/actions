@@ -1,8 +1,9 @@
 FROM rust:1-alpine as build
 
 ARG ACTION
-COPY $ACTION /app
 WORKDIR /app
+COPY $ACTION .
+RUN pwd && ls -a
 
 RUN cargo build --release
 
