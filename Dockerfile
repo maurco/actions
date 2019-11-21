@@ -2,7 +2,7 @@ FROM rust:1-alpine as build
 
 ARG ACTION
 WORKDIR /app
-COPY $ACTION .
+COPY ./$ACTION .
 
 RUN cargo build --release
 
