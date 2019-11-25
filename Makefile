@@ -1,13 +1,6 @@
-all: build-bin build-image run
+all: build run
 
-build-bin:
-	docker run --rm \
-		-v $$(PWD)/$(ACTION):/app \
-		-w /app \
-		golang:1-alpine \
-		go build -v -ldflags="-w -s" -o ./bin/$(ACTION) ./...
-
-build-image:
+build:
 	docker build \
 		-t github-actions/$(ACTION) \
 		$(FLAGS) $(ACTION)
