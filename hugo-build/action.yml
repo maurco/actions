@@ -1,17 +1,33 @@
 name: Hugo Build
 author: Maurer Labs, LLC
-description: Builds a site using the Hugo static site generator
+description: Builds a Hugo site optimized for production
 inputs:
-  command:
-    description: Command to use when building the site
+  source:
+    description: Filesystem path to read files relative from
     required: false
-  base_dir:
-    description: Base directory to run build from
+  base_url:
+    description: Hostname (and path) to the root, e.g. http://spf13.com/
     required: false
+  build_drafts:
+    description: Include content marked as draft
+    required: false
+  config:
+    description: Config file (default is path/config.yaml|json|toml)
+    required: false
+  destination:
+    description: Filesystem path to write files to (relative to base_dir)
+    required: false
+    default: public
   environment:
-    description: Base directory to run build from
+    description: Hugo build environment
     required: false
-    default: development
+  path_warnings:
+    description: Print warnings on duplicate target paths etc.
+    required: false
+    default: true
+outputs:
+  destination:
+    description: Filesystem path where files were written
 runs:
   using: docker
   image: Dockerfile

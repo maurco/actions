@@ -6,5 +6,5 @@ RUN cargo build --release
 
 FROM alpine
 
-COPY --from=build /app/target/release/hello-world /app
-ENTRYPOINT ["/app"]
+COPY --from=build /app/target/release/hello-world /usr/local/bin
+ENTRYPOINT ["hello-world"]

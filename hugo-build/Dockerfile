@@ -1,20 +1,16 @@
-FROM alpine:3
+FROM alpine
 
 RUN apk update
 RUN apk add --update \
+	git \
 	libstdc++ \
 	libc6-compat \
-	git \
-	bash \
 	tar \
-	wget \
-	make
+	wget
 
-RUN rm /var/cache/apk/*
-
-ENV VERSION 0.59.1
-RUN wget -qO- https://github.com/gohugoio/hugo/releases/download/v${VERSION}/hugo_extended_${VERSION}_Linux-64bit.tar.gz |\
+ARG HUGO_VERSION=0.59.1
+RUN wget -qO- https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz |\
 	tar xz -C /usr/local/bin
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY bin/hugo-build /usr/local/bin
+ENTRYPOINT ["hugo-build"]

@@ -22,9 +22,9 @@ inputs:
     description: Wait for the ECS service to complete the deployment and become stable
     required: false
     default: false
-outputs:
-  image_tag:
-    description: The new image tag in ECR
+  s3_deployment_file:
+    description: S3 file containing the current deployment ID
+    required: false
 runs:
   using: docker
   image: Dockerfile

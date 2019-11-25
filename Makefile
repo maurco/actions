@@ -1,12 +1,16 @@
-all: build run
+all: build-bin build-image run
 
-build:
+build-bin:
+	GOOS=linux GOARCH=amd64 \
+	go build -v -o ./$(ACTION)/bin/$(ACTION) ./$(ACTION)/...
+
+build-image:
 	docker build \
 		-t github-actions/$(ACTION) \
-		$(BUILD_FLAGS) $(ACTION)
+		$(FLAGS) $(ACTION)
 
 run:
 	docker run \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		$(RUN_FLAGS) github-actions/$(ACTION)
+		$(FLAGS) github-actions/$(ACTION)
