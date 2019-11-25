@@ -19,5 +19,5 @@ RUN wget -qO- https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION
 	tar xz -C /usr/local/bin
 
 # COPY --from=build /app/hugo-build /usr/local/bin
-COPY bin/hugo-build /usr/local/bin
+COPY bin/hugo-build /usr/local/bin/hugo-build
 ENTRYPOINT ["hugo-build"]
