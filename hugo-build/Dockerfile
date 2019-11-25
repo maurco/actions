@@ -1,8 +1,8 @@
-FROM golang:1-alpine AS build
+# FROM golang:1-alpine AS build
 
-WORKDIR /app
-COPY . .
-RUN go build -v -o /usr/local/bin/hugo-build ./...
+# WORKDIR /app
+# COPY . .
+# RUN go build -v -o hugo-build ./...
 
 FROM alpine
 
@@ -18,6 +18,6 @@ ARG HUGO_VERSION=0.59.1
 RUN wget -qO- https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz |\
 	tar xz -C /usr/local/bin
 
-COPY --from=build /usr/local/bin/hugo-build /usr/local/bin
-# COPY bin/hugo-build /usr/local/bin
+# COPY --from=build /app/hugo-build /usr/local/bin
+COPY bin/hugo-build /usr/local/bin
 ENTRYPOINT ["hugo-build"]
