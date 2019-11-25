@@ -9,7 +9,7 @@ import (
 
 func addFlag(flags []string, key, envKey string) []string {
 	if val, ok := os.LookupEnv(envKey); ok {
-		return append(flags, fmt.Sprintf("--%s %s", key, val))
+		return append(flags, fmt.Sprintf("--%s=%s", key, val))
 	}
 
 	return flags
@@ -27,12 +27,20 @@ func main() {
 	flags = addFlag(flags, "path-warnings", "INPUT_PATH_WARNINGS")
 
 	if val, ok := os.LookupEnv("GITHUB_WORKSPACE"); ok {
-		os.Chdir(val)
+		err := os.Chdir(val)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if val, ok := os.LookupEnv("INPUT_BASE_DIR"); ok {
-		os.Chdir(val)
+		err := os.Chdir(val)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+
+	fmt.Printf("%v", flags)
 
 	cmd := exec.Command("hugo", flags...)
 	cmd.Stdout = os.Stdout
