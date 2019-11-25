@@ -1,5 +1,8 @@
 all: build run
 
+format:
+	gofmt -w .
+
 build:
 	docker build \
 		-t github-actions/$(ACTION) \

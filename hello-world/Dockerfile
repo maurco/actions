@@ -1,10 +1,10 @@
-FROM rust:1-alpine as build
+FROM golang:1-alpine AS build
 
 WORKDIR /app
 COPY . .
-RUN cargo build --release
+RUN go build -v -o hello-world ./...
 
 FROM alpine
 
-COPY --from=build /app/target/release/hello-world /usr/local/bin
+COPY --from=build /app/hello-world /usr/local/bin
 ENTRYPOINT ["hello-world"]
