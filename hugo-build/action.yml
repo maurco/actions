@@ -29,5 +29,7 @@ outputs:
   destination:
     description: Filesystem path where files were written
 runs:
-  using: docker
-  image: Dockerfile
+  using: node12
+  main: index.js
+  # using: docker
+  # image: Dockerfile
