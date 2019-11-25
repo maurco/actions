@@ -5,7 +5,7 @@ build-bin:
 		-v $$(PWD)/$(ACTION):/app \
 		-w /app \
 		golang:1-alpine \
-		go build -v -o ./bin/$(ACTION) ./...
+		go build -v -ldflags="-w -s" -o ./bin/$(ACTION) ./...
 
 build-image:
 	docker build \
