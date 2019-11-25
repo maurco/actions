@@ -1,8 +1,11 @@
 all: build-bin build-image run
 
 build-bin:
-	GOOS=linux GOARCH=amd64 \
-	go build -v -o ./$(ACTION)/bin/$(ACTION) ./$(ACTION)/...
+	docker run --rm \
+		-v $$(PWD)/$(ACTION):/app \
+		-w /app \
+		golang:1-alpine \
+		go build -v -o ./bin/$(ACTION) ./...
 
 build-image:
 	docker build \
@@ -10,7 +13,7 @@ build-image:
 		$(FLAGS) $(ACTION)
 
 run:
-	docker run \
+	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		$(FLAGS) github-actions/$(ACTION)
