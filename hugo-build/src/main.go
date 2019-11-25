@@ -26,14 +26,14 @@ func main() {
 	flags = addFlag(flags, "minify", "INPUT_MINIFY")
 	flags = addFlag(flags, "path-warnings", "INPUT_PATH_WARNINGS")
 
-	if val, ok := os.LookupEnv("GITHUB_WORKSPACE"); ok {
+	if val, ok := os.LookupEnv("GITHUB_WORKSPACE"); ok && val != "" {
 		err := os.Chdir(val)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	if val, ok := os.LookupEnv("INPUT_BASE_DIR"); ok {
+	if val, ok := os.LookupEnv("INPUT_BASE_DIR"); ok && val != "" {
 		err := os.Chdir(val)
 		if err != nil {
 			log.Fatal(err)
