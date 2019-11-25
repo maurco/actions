@@ -8,7 +8,7 @@ import (
 )
 
 func addFlag(flags []string, key, envKey string) []string {
-	if val, ok := os.LookupEnv(envKey); ok {
+	if val, ok := os.LookupEnv(envKey); ok && val != "" {
 		return append(flags, fmt.Sprintf("--%s=%s", key, val))
 	}
 
@@ -39,8 +39,6 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-	fmt.Printf("%v", flags)
 
 	cmd := exec.Command("hugo", flags...)
 	cmd.Stdout = os.Stdout
