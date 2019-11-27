@@ -1,11 +1,10 @@
-FROM alpine:3
+FROM golang:1-alpine AS build
 
-RUN apk update
-RUN apk add --update bash python3
-RUN rm /var/cache/apk/*
+WORKDIR /app
+COPY . .
+RUN go build -v -o s3-deploy ./...
 
-RUN pip3 install --upgrade pip
-RUN pip3 install --upgrade awscli
+FROM alpine
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY --from=build /app/s3-deploy /usr/local/bin
+ENTRYPOINT ["s3-deploy"]

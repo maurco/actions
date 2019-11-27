@@ -3,17 +3,37 @@ author: Maurer Labs, LLC
 description: Deploys static website files to S3 and invalidates them in a CloudFront distribution
 inputs:
   base_dir:
-    description: Public directory to deploy to S3
+    description: Filesystem path to deploy
     required: false
+  ignore_pattern:
+    description: RegExp pattern of paths to ignore
+    required: false
+    default: (node_modules|bower_components)
   bucket_name:
     description: Name of the S3 bucket
     required: true
+  key_prefix:
+    description: Subfolder within S3 bucket
+    required: false
+  object_acl:
+    description: ACL to use for uploaded S3 objects
+    required: false
+    default: private
+  delete_stale_files:
+    description: Delete all stale S3 files that are not in local deployment directory
+    required: false
+    default: false
   cloudfront_id:
     description: ID of the CloudFront distribution
     required: false
   invalidate_wildcard:
-    description: Whether to invalidate all paths, or just the uploaded paths
+    description: Invalidate all paths using a wildcard vs using a whitelist
     required: false
+    default: true
+  invalidate_with_key_prefix:
+    description: Prepend key_prefix to all invalidation paths
+    required: false
+    default: true
 runs:
   using: docker
   image: Dockerfile
