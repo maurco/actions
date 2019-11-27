@@ -1,4 +1,4 @@
-package actions
+package toolkit
 
 import (
 	"os"
@@ -14,7 +14,7 @@ func TestChangeDirByEnvVar(t *testing.T) {
 	cwd, _ := os.Getwd()
 	assert.NotEqual(t, cwd, d)
 
-	os.Setenv("FOOBAR", "actions")
+	os.Setenv("FOOBAR", "toolkit")
 	ChangeDirByEnvVar("FOOBAR")
 
 	cwd, _ = os.Getwd()
