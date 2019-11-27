@@ -1,4 +1,4 @@
-module github.com/maurerlabs/github-actions/actions
+module github.com/maurerlabs/github-actions/actions/src
 
 go 1.13
 
