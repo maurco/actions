@@ -36,4 +36,4 @@ inputs:
     default: true
 runs:
   using: docker
-  image: docker://docker.pkg.github.com/maurerlabs/actions/s3-deploy:latest
+  image: docker://maurerlabs/actions-s3-deploy:latest
