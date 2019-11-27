@@ -1,22 +1,22 @@
-all: build-bin build-image run-image
+VERSION := "latest"
+
+deploy: build push
 
 format:
 	gofmt -w .
 
-build-bin:
-	docker run --rm \
-		-w /app \
-		-v $(PWD)/$(ACTION):/app \
-		golang:1-alpine \
-		go build -v -o bin/$(ACTION)-alpine ./...
-
-build-image:
+build:
 	docker build \
-		-t github-actions/$(ACTION) \
-		$(FLAGS) $(ACTION)
+		--build-arg action=$(ACTION) \
+		-t maurerlabs/actions/$(ACTION):$(VERSION) .
 
-run-image:
+run:
 	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		$(FLAGS) github-actions/$(ACTION)
+		$(FLAGS) maurerlabs/actions/$(ACTION)
+
+push:
+	docker tag maurerlabs/actions/$(ACTION):$(VERSION) maurerlabs/action-$(ACTION):$(VERSION) && \
+	docker push maurerlabs/action-$(ACTION):$(VERSION) && \
+	docker rmi maurerlabs/action-$(ACTION):$(VERSION)
