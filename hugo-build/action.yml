@@ -32,9 +32,6 @@ inputs:
     description: Print warnings on duplicate target paths etc.
     required: false
     default: true
-outputs:
-  destination:
-    description: Filesystem path where files were written
 runs:
   using: docker
   image: Dockerfile
