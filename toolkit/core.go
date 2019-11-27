@@ -17,11 +17,11 @@ func command(val string, args ...interface{}) {
 	fmt.Println(fmt.Sprintf(val, args...))
 }
 
-func ExportVariable(key, val string) {
+func ExportVariable(key string, val interface{}) {
 	key = strings.TrimSpace(key)
 
 	os.Setenv(key, val)
-	command("::set-env name=%s::%s", key, val)
+	command("::set-env name=%s::%v", key, val)
 }
 
 func SetSecret(val string) {
@@ -29,7 +29,7 @@ func SetSecret(val string) {
 }
 
 func AddPath(val string) {
-	os.Setenv("PATH", fmt.Sprintf("%s%c%s", val, os.PathListSeparator, os.Getenv("PATH")))
+	os.Setenv("PATH", fmt.Sprintf("%s%c%s", strings.TrimSpace(val), os.PathListSeparator, os.Getenv("PATH")))
 	command("::add-path::%s", val)
 }
 
@@ -52,8 +52,8 @@ func GetInput(key string, options ...*InputOptions) string {
 	return ""
 }
 
-func SetOutput(key, val string) {
-	command("::set-output name=%s::%s", key, val)
+func SetOutput(key string, val interface{}) {
+	command("::set-output name=%s::%v", strings.TrimSpace(key), val)
 }
 
 func SetFailed(msg string) {
@@ -99,15 +99,15 @@ func Pause() func() {
 }
 
 func StartGroup(key string) {
-	command("::group ::%s", key)
+	command("::group ::%s", strings.TrimSpace(key))
 }
 
 func EndGroup() {
 	command("::endgroup")
 }
 
-func SaveState(key, val string) {
-	command("::save-state name=%s::%s", strings.TrimSpace(key), val)
+func SaveState(key string, val interface{}) {
+	command("::save-state name=%s::%v", strings.TrimSpace(key), val)
 }
 
 func GetState(key string, options ...*InputOptions) string {
