@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mime"
 	"os"
+	"path/filepath"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -46,7 +47,8 @@ func (iter *UploadIterator) Err() error {
 }
 
 func (iter *UploadIterator) UploadObject() s3manager.BatchUploadObject {
-	mimeType := mime.TypeByExtension(iter.next.path)
+	ext := filepath.Ext(iter.next.path)
+	mimeType := mime.TypeByExtension(ext)
 	key := iter.prefix + iter.next.path
 
 	return s3manager.BatchUploadObject{
@@ -54,8 +56,8 @@ func (iter *UploadIterator) UploadObject() s3manager.BatchUploadObject {
 			ACL:         &iter.acl,
 			Bucket:      &iter.bucket,
 			Key:         &key,
-			Body:        iter.next.f,
 			ContentType: &mimeType,
+			Body:        iter.next.f,
 		},
 		After: func() error {
 			fi, err := iter.next.f.Stat()
