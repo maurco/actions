@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -11,6 +10,6 @@ import (
 func main() {
 	name := os.Getenv("INPUT_WHO_TO_GREET")
 
-	fmt.Printf("Hello, %s!\n", name)
+	toolkit.Info("Hello, %s!", name)
 	toolkit.SetOutput("time", time.Now())
 }

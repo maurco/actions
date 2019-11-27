@@ -55,7 +55,7 @@ func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) 
 		}
 
 		for _, v := range res.Deleted {
-			toolkit.Info(fmt.Sprintf("Deleted %s", *v.Key))
+			toolkit.Info("Deleted %s", *v.Key)
 		}
 
 		if length > max {

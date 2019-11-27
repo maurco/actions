@@ -82,7 +82,7 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 	}
 
 	for _, v := range res.Invalidation.InvalidationBatch.Paths.Items {
-		toolkit.Info(fmt.Sprintf("Invalidated %s", *v))
+		toolkit.Info("Invalidated %s", *v)
 	}
 
 	return nil

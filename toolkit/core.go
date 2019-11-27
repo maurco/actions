@@ -13,24 +13,20 @@ type InputOptions struct {
 	Fallback string
 }
 
-func command(val string, args ...interface{}) {
-	fmt.Println(fmt.Sprintf(val, args...))
-}
-
 func ExportVariable(key, val string) {
 	key = strings.TrimSpace(key)
 
 	os.Setenv(key, val)
-	command("::set-env name=%s::%s", key, val)
+	Info("::set-env name=%s::%s", key, val)
 }
 
 func SetSecret(val string) {
-	command("::add-mask::%s", val)
+	Info("::add-mask::%s", val)
 }
 
 func AddPath(val string) {
 	os.Setenv("PATH", fmt.Sprintf("%s%c%s", strings.TrimSpace(val), os.PathListSeparator, os.Getenv("PATH")))
-	command("::add-path::%s", val)
+	Info("::add-path::%s", val)
 }
 
 func GetInput(key string, options ...*InputOptions) string {
@@ -53,7 +49,7 @@ func GetInput(key string, options ...*InputOptions) string {
 }
 
 func SetOutput(key string, val interface{}) {
-	command("::set-output name=%s::%v", strings.TrimSpace(key), val)
+	Info("::set-output name=%s::%v", strings.TrimSpace(key), val)
 }
 
 func SetFailed(msg string) {
@@ -61,53 +57,53 @@ func SetFailed(msg string) {
 	os.Exit(1)
 }
 
-func Info(msg string) {
-	command("%s", msg)
+func Info(msg string, args ...interface{}) {
+	fmt.Println(fmt.Sprintf(msg, args...))
 }
 
 func Debug(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
-		command("::debug file=%s,line=%d::%s", file, line, msg)
+		Info("::debug file=%s,line=%d::%s", file, line, msg)
 	} else {
-		command("::debug ::%s", msg)
+		Info("::debug ::%s", msg)
 	}
 }
 
 func Warning(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
-		command("::warning file=%s,line=%d::%s", file, line, msg)
+		Info("::warning file=%s,line=%d::%s", file, line, msg)
 	} else {
-		command("::warning ::%s", msg)
+		Info("::warning ::%s", msg)
 	}
 }
 
 func Error(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
-		command("::error file=%s,line=%d::%s", file, line, msg)
+		Info("::error file=%s,line=%d::%s", file, line, msg)
 	} else {
-		command("::error ::%s", msg)
+		Info("::error ::%s", msg)
 	}
 }
 
 func Pause() func() {
 	id := time.Now().UnixNano()
-	command("::stop-commands::%d", id)
+	Info("::stop-commands::%d", id)
 
 	return func() {
-		command("::%d::", id)
+		Info("::%d::", id)
 	}
 }
 
 func StartGroup(key string) {
-	command("::group ::%s", strings.TrimSpace(key))
+	Info("::group ::%s", strings.TrimSpace(key))
 }
 
 func EndGroup() {
-	command("::endgroup")
+	Info("::endgroup")
 }
 
 func SaveState(key, val string) {
-	command("::save-state name=%s::%s", strings.TrimSpace(key), val)
+	Info("::save-state name=%s::%s", strings.TrimSpace(key), val)
 }
 
 func GetState(key string, options ...*InputOptions) string {

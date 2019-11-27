@@ -67,7 +67,7 @@ func (iter *UploadIterator) UploadObject() s3manager.BatchUploadObject {
 			}
 
 			size := humanize.Bytes(uint64(fi.Size()))
-			toolkit.Info(fmt.Sprintf("Uploaded %s [%v]", key, size))
+			toolkit.Info("Uploaded %s [%v]", key, size)
 
 			return iter.next.f.Close()
 		},
