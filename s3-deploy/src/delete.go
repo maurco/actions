@@ -7,12 +7,13 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
+	"github.com/maurerlabs/actions/toolkit"
 )
 
 func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) error {
 	total := len(paths)
 	if total < 1 {
-		fmt.Println("=> Nothing to delete")
+		toolkit.Info("Nothing to delete")
 		return nil
 	}
 
@@ -21,7 +22,8 @@ func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) 
 		word = "file"
 	}
 
-	fmt.Printf("=> %v %s staged for deletion\n", total, word)
+	toolkit.StartGroup(fmt.Sprintf("%v %s staged for deletion", total, word))
+	defer toolkit.EndGroup()
 
 	var recurse func(p []*string) error
 	recurse = func(p []*string) error {
@@ -53,7 +55,7 @@ func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) 
 		}
 
 		for _, v := range res.Deleted {
-			fmt.Printf("-- Deleted %s\n", *v.Key)
+			toolkit.Info(fmt.Sprintf("Deleted %s", *v.Key))
 		}
 
 		if length > max {

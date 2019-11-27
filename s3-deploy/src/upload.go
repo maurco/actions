@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/dustin/go-humanize"
+	"github.com/maurerlabs/actions/toolkit"
 )
 
 const UPLOAD_PART_SIZE = 1024 * 1024 * 10 // 10mb
@@ -66,7 +67,8 @@ func (iter *UploadIterator) UploadObject() s3manager.BatchUploadObject {
 			}
 
 			size := humanize.Bytes(uint64(fi.Size()))
-			fmt.Printf("-- Uploaded %s [%v]\n", key, size)
+			toolkit.Info(fmt.Sprintf("Uploaded %s [%v]", key, size))
+
 			return iter.next.f.Close()
 		},
 	}
@@ -83,14 +85,15 @@ func batchUpload(sess *session.Session, paths []*string, bucket, prefix, acl str
 	total := len(paths)
 
 	if total < 1 {
-		fmt.Println("=> Nothing to upload")
+		toolkit.Info("Nothing to upload")
 	} else {
 		word := "files"
 		if total == 1 {
 			word = "file"
 		}
 
-		fmt.Printf("=> %v %s staged for upload\n", total, word)
+		toolkit.StartGroup(fmt.Sprintf("%v %s staged for upload", total, word))
+		defer toolkit.EndGroup()
 	}
 
 	ctx := aws.BackgroundContext()

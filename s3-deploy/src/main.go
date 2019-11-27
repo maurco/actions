@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
-	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/maurerlabs/actions/toolkit"
@@ -12,15 +10,14 @@ import (
 
 func main() {
 	var (
-		start                   = time.Now()
-		ignorePattern           = os.Getenv("INPUT_IGNORE_PATTERN")
-		bucketName              = os.Getenv("INPUT_BUCKET_NAME")
-		keyPrefix               = os.Getenv("INPUT_KEY_PREFIX")
-		objectACL               = os.Getenv("INPUT_OBJECT_ACL")
-		deleteStaleFiles        = os.Getenv("INPUT_DELETE_STALE_FILES") == "true"
-		cloudfrontId            = os.Getenv("INPUT_CLOUDFRONT_ID")
-		invalidateWildcard      = os.Getenv("INPUT_INVALIDATE_WILDCARD") == "true"
-		invalidateWithKeyPrefix = os.Getenv("INPUT_INVALIDATE_WITH_KEY_PREFIX") == "true"
+		ignorePattern           = toolkit.GetInput("ignore_pattern", &InputOptions{Fallback: "(.git|node_modules)"})
+		bucketName              = toolkit.GetInput("bucket_name", &InputOptions{Required: true})
+		keyPrefix               = toolkit.GetInput("key_prefix")
+		objectACL               = toolkit.GetInput("object_acl", &InputOptions{Fallback: "private"})
+		deleteStaleFiles        = toolkit.GetInput("delete_stale_files", &InputOptions{Fallback: "false"}) == "true"
+		cloudfrontId            = toolkit.GetInput("cloudfront_id")
+		invalidateWildcard      = toolkit.GetInput("invalidate_wildcard", &InputOptions{Fallback: "true"}) == "true"
+		invalidateWithKeyPrefix = toolkit.GetInput("invalidate_with_key_prefix", &InputOptions{Fallback: "true"}) == "true"
 	)
 
 	os.Setenv("AWS_SDK_LOAD_CONFIG", "1")
@@ -31,8 +28,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println("=> Generating file lists")
 
 	localFiles, err := getLocalFiles(".", ignorePattern)
 	if err != nil {
@@ -70,6 +65,4 @@ func main() {
 			log.Fatal(err)
 		}
 	}
-
-	fmt.Printf("=> Done in %s\n", time.Since(start))
 }

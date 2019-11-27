@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudfront"
 	"github.com/dustin/go-humanize"
+	"github.com/maurerlabs/actions/toolkit"
 )
 
 func generatePaths(wildcard bool, prefix string, paths []*string) ([]*string, int64) {
@@ -48,7 +49,7 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 	items, length := generatePaths(wildcard, prefix, paths)
 
 	if length < 1 {
-		fmt.Println("=> Nothing to invalidate")
+		toolkit.Info("Nothing to invalidate")
 		return nil
 	}
 
@@ -57,11 +58,12 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 		word = "path"
 	}
 
-	fmt.Printf("=> %d %s staged for invalidation\n", length, word)
+	toolkit.StartGroup(fmt.Sprintf("%d %s staged for invalidation", length, word))
+	defer toolkit.EndGroup()
 
 	if !wildcard && length > 50 {
 		cost := float64(length) * 0.005
-		fmt.Printf("-! Invalidation will cost ~$%v (%d paths), consider using a wildcard\n", humanize.CommafWithDigits(cost, 2), length)
+		toolkit.Warning(fmt.Sprintf("Invalidation will cost ~$%v (%d paths), consider using a wildcard", humanize.CommafWithDigits(cost, 2), length))
 	}
 
 	ref := strconv.FormatInt(time.Now().UnixNano(), 10)
@@ -80,7 +82,7 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 	}
 
 	for _, v := range res.Invalidation.InvalidationBatch.Paths.Items {
-		fmt.Printf("-- Invalidated %s\n", *v)
+		toolkit.Info(fmt.Sprintf("Invalidated %s", *v))
 	}
 
 	return nil
