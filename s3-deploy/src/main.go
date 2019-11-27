@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/maurerlabs/github-actions/toolkit"
+	"github.com/maurerlabs/actions/toolkit"
 )
 
 func main() {
@@ -24,8 +24,8 @@ func main() {
 	)
 
 	os.Setenv("AWS_SDK_LOAD_CONFIG", "1")
-	toolkit.ChangeDirByEnvVar("GITHUB_WORKSPACE")
-	toolkit.ChangeDirByEnvVar("INPUT_BASE_DIR")
+	toolkit.ChdirFromEnv("GITHUB_WORKSPACE")
+	toolkit.ChdirFromEnv("INPUT_BASE_DIR")
 
 	sess, err := session.NewSession()
 	if err != nil {

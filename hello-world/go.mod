@@ -1,5 +1,5 @@
-module github.com/maurerlabs/github-actions/hello-world
+module github.com/maurerlabs/actions/hello-world
 
 go 1.13
 
-require github.com/maurerlabs/github-actions/toolkit v0.0.0-20191127011842-a2170e825877
+require github.com/maurerlabs/actions/toolkit v0.0.0-20191127194926-a03b2a891843

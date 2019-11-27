@@ -1,10 +1,7 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/kvz/logstreamer v0.0.0-20150507115422-a635b98146f0/go.mod h1:8/LTPeDLaklcUjgSQBHbhBF1ibKAFxzS5o+H7USfMSA=
-github.com/maurerlabs/github-actions v0.0.0-20191127005118-a32b1f1782a0 h1:tPZr09+M+AEh1vdoNgL0PmSkf8dy5yQTkVbtmZdWJEE=
-github.com/maurerlabs/github-actions/toolkit v0.0.0-20191127011111-13cc2a89039e h1:wj759aQqc7iWLvyT0R2BT+4205ADqF48gWrOdZBx/40=
-github.com/maurerlabs/github-actions/toolkit v0.0.0-20191127011111-13cc2a89039e/go.mod h1:XT7SjpVN+OPdKbl4ofJtorSikvV93h24HvL+VaW6mHY=
-github.com/maurerlabs/github-actions/toolkit v0.0.0-20191127011842-a2170e825877 h1:+QnoCmHklGYf+tcldzAMn5UUrgpbSlO9eqnTnR5Tt+U=
-github.com/maurerlabs/github-actions/toolkit v0.0.0-20191127011842-a2170e825877/go.mod h1:XT7SjpVN+OPdKbl4ofJtorSikvV93h24HvL+VaW6mHY=
+github.com/maurerlabs/actions/toolkit v0.0.0-20191127194926-a03b2a891843 h1:Ik6aSYrE2bPvT0uhiZZCN02troS54kBM5OXcm7qIriI=
+github.com/maurerlabs/actions/toolkit v0.0.0-20191127194926-a03b2a891843/go.mod h1:DNy7IIekTFCT2baqgIzMEyL/toyiy50PQSu4FOdbpCc=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.4.0/go.mod h1:j7eGeouHqKxXV5pUuKE4zz7dFj8WfuZ+81PSLYec5m4=
