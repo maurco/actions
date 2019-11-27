@@ -17,7 +17,7 @@ func command(val string, args ...interface{}) {
 	fmt.Println(fmt.Sprintf(val, args...))
 }
 
-func ExportVariable(key string, val interface{}) {
+func ExportVariable(key, val string) {
 	key = strings.TrimSpace(key)
 
 	os.Setenv(key, val)
