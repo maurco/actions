@@ -54,13 +54,15 @@ func TestExportVariable(t *testing.T) {
 		ExportVariable("foo ", "bar")
 		assert.Equal(t, os.Getenv("foo"), "bar")
 	})
-
 	assert.Equal(t, output, "::set-env name=foo::bar\n")
 }
 
 func TestAddPath(t *testing.T) {
-	AddPath("/foo/bar")
-	assert.Regexp(t, regexp.MustCompile("^\\/foo\\/bar:"), os.Getenv("PATH"))
+	output := captureOutput(func() {
+		AddPath("/foo/bar")
+		assert.Regexp(t, regexp.MustCompile("^\\/foo\\/bar:"), os.Getenv("PATH"))
+	})
+	assert.Equal(t, output, "::add-path::/foo/bar\n")
 }
 
 func TestGetInput(t *testing.T) {
