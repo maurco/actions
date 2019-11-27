@@ -1,4 +1,4 @@
-module github.com/maurerlabs/github-actions/toolkit
+module github.com/maurerlabs/actions/toolkit
 
 go 1.13
 
