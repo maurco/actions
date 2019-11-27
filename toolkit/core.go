@@ -21,7 +21,7 @@ func ExportVariable(key, val string) {
 	key = strings.TrimSpace(key)
 
 	os.Setenv(key, val)
-	command("::set-env name=%s::%v", key, val)
+	command("::set-env name=%s::%s", key, val)
 }
 
 func SetSecret(val string) {
@@ -106,8 +106,8 @@ func EndGroup() {
 	command("::endgroup")
 }
 
-func SaveState(key string, val interface{}) {
-	command("::save-state name=%s::%v", strings.TrimSpace(key), val)
+func SaveState(key, val string) {
+	command("::save-state name=%s::%s", strings.TrimSpace(key), val)
 }
 
 func GetState(key string, options ...*InputOptions) string {
