@@ -16,6 +16,6 @@ RUN wget -qO /usr/local/bin/hugo-build https://github.com/maurerlabs/github-acti
 RUN chmod +x /usr/local/bin/hugo-build
 
 # only if local binary exists (for testing)
-COPY README.md bin/* /usr/local/bin
+COPY README.md bin/* /usr/local/bin/
 
 ENTRYPOINT ["hugo-build"]
