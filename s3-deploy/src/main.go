@@ -10,14 +10,14 @@ import (
 
 func main() {
 	var (
-		ignorePattern           = toolkit.GetInput("ignore_pattern", &InputOptions{Fallback: "(.git|node_modules)"})
-		bucketName              = toolkit.GetInput("bucket_name", &InputOptions{Required: true})
+		ignorePattern           = toolkit.GetInput("ignore_pattern", &toolkit.InputOptions{Fallback: "(.git|node_modules)"})
+		bucketName              = toolkit.GetInput("bucket_name", &toolkit.InputOptions{Required: true})
 		keyPrefix               = toolkit.GetInput("key_prefix")
-		objectACL               = toolkit.GetInput("object_acl", &InputOptions{Fallback: "private"})
-		deleteStaleFiles        = toolkit.GetInput("delete_stale_files", &InputOptions{Fallback: "false"}) == "true"
+		objectACL               = toolkit.GetInput("object_acl", &toolkit.InputOptions{Fallback: "private"})
+		deleteStaleFiles        = toolkit.GetInput("delete_stale_files", &toolkit.InputOptions{Fallback: "false"}) == "true"
 		cloudfrontId            = toolkit.GetInput("cloudfront_id")
-		invalidateWildcard      = toolkit.GetInput("invalidate_wildcard", &InputOptions{Fallback: "true"}) == "true"
-		invalidateWithKeyPrefix = toolkit.GetInput("invalidate_with_key_prefix", &InputOptions{Fallback: "true"}) == "true"
+		invalidateWildcard      = toolkit.GetInput("invalidate_wildcard", &toolkit.InputOptions{Fallback: "true"}) == "true"
+		invalidateWithKeyPrefix = toolkit.GetInput("invalidate_with_key_prefix", &toolkit.InputOptions{Fallback: "true"}) == "true"
 	)
 
 	os.Setenv("AWS_SDK_LOAD_CONFIG", "1")

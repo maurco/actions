@@ -7,16 +7,13 @@ format:
 
 build:
 	docker build \
-		--build-arg action=$(ACTION) \
-		-t maurerlabs/action-$(ACTION):$(VERSION) . && \
-	if [ -r $(ACTION)/Dockerfile ]; then docker build \
-		-t maurerlabs/action-$(ACTION):$(VERSION) $(ACTION); fi
+		-t maurerlabs/action-$(ACTION):$(VERSION) $(ACTION)
+
+push:
+	docker push maurerlabs/action-$(ACTION):$(VERSION)
 
 run:
 	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
 		$(FLAGS) maurerlabs/action-$(ACTION):$(VERSION)
-
-push:
-	docker push maurerlabs/action-$(ACTION):$(VERSION)
