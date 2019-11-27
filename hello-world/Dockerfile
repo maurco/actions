@@ -1,10 +1,4 @@
-FROM golang:1-alpine AS build
-
-WORKDIR /app
-COPY . .
-RUN go build -v -o hello-world ./...
-
 FROM alpine
 
-COPY --from=build /app/hello-world /usr/local/bin
+COPY bin/hello-world-alpine /usr/local/bin/hello-world
 ENTRYPOINT ["hello-world"]

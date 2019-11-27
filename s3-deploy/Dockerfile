@@ -1,10 +1,4 @@
-FROM golang:1-alpine AS build
-
-WORKDIR /app
-COPY . .
-RUN go build -v -o s3-deploy ./...
-
 FROM alpine
 
-COPY --from=build /app/s3-deploy /usr/local/bin
+COPY bin/s3-deploy-alpine /usr/local/bin/s3-deploy
 ENTRYPOINT ["s3-deploy"]

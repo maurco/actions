@@ -1,4 +1,4 @@
-all: build-bin build-image run
+all: build-bin build-image run-image
 
 format:
 	gofmt -w .
@@ -8,14 +8,14 @@ build-bin:
 		-w /app \
 		-v $(PWD)/$(ACTION):/app \
 		golang:1-alpine \
-		go build -v -o bin/$(ACTION) ./...
+		go build -v -o bin/$(ACTION)-alpine ./...
 
 build-image:
 	docker build \
 		-t github-actions/$(ACTION) \
 		$(FLAGS) $(ACTION)
 
-run:
+run-image:
 	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
