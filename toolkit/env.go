@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func ChangeDirByEnvVar(key string) {
+func ChdirFromEnv(key string) {
 	if val, ok := os.LookupEnv(key); ok && val != "" {
 		err := os.Chdir(val)
 		if err != nil {
@@ -14,7 +14,7 @@ func ChangeDirByEnvVar(key string) {
 	}
 }
 
-func AddFlagByEnvVar(flags *[]string, flagFormat int, name, key string) {
+func AddFlagFromEnv(flags *[]string, flagFormat int, name, key string) {
 	var format string
 	switch flagFormat {
 	case 1:
