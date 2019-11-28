@@ -247,15 +247,6 @@ func Extract7z() {
 
 }
 
-func CacheBin(paths ...string) {
-	path := filepath.Join(paths...)
-	filename := filepath.Base(path)
-
-	if err := copy.Copy(path, "/usr/local/bin/"+filename); err != nil {
-		panic(err)
-	}
-}
-
 func CacheTool(path, name, version, arch string) string {
 	out := filepath.Join(getCacheDir(), name, version)
 	outArch := filepath.Join(out, arch)
@@ -304,4 +295,34 @@ func Find() {
 
 func FindAllVersions() {
 
+}
+
+func InstallBin(paths ...string) {
+	path := filepath.Join(paths...)
+	name := filepath.Base(path)
+	info, err := os.Stat(path)
+	if err != nil {
+		panic(err)
+	}
+
+	home := os.Getenv("HOME")
+	if home == "" {
+		panic("Cannot find home directory")
+	}
+
+	bin := filepath.Join(home, "bin")
+	if err := os.MkdirAll(bin, os.ModePerm); err != nil {
+		panic(err)
+	}
+
+	pathNew := filepath.Join(bin, name)
+	if err := copy.Copy(path, pathNew); err != nil {
+		panic(err)
+	}
+
+	if !info.IsDir() {
+		if err := os.Chmod(path, 0755); err != nil {
+			panic(err)
+		}
+	}
 }
