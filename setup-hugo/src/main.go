@@ -14,26 +14,24 @@ func main() {
 		extended = toolkit.GetInput("extended", &toolkit.InputOptions{Fallback: "true"}) == "true"
 	)
 
-	var extForURL string
 	if extended {
-		extForURL = "_extended"
+		toolkit.Info("Downloading Hugo Extended")
+	} else {
+		toolkit.Info("Downloading Hugo")
 	}
 
-	var extForLog string
+	filename := "hugo"
 	if extended {
-		extForLog = " Extended"
+		filename = "hugo_extended"
 	}
 
-	toolkit.Info("Downloading Hugo%s", extForLog)
-
-	url := fmt.Sprintf("https://github.com/gohugoio/hugo/releases/download/v%s/hugo%s_%s_Linux-64bit.tar.gz", version, extForURL, version)
-	name := fmt.Sprintf("hugo%s", extForURL)
+	url := fmt.Sprintf("https://github.com/gohugoio/hugo/releases/download/v%s/%s_%s_Linux-64bit.tar.gz", version, filename, version)
+	name := fmt.Sprintf("hugo%s", filename)
 
 	extracted := toolkit.ExtractTar(toolkit.DownloadFile(url))
 	cache := toolkit.CacheTool(extracted, name, version, "amd64")
 
 	toolkit.AddPath(cache)
 	toolkit.MakeExecutable(cache, "hugo")
-
-	toolkit.Info("Installed Hugo%s v%s", extForLog, version)
+	toolkit.Command("hugo", "version")
 }
