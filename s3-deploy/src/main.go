@@ -10,6 +10,7 @@ import (
 
 func main() {
 	var (
+		baseDir                 = toolkit.GetInput("base_dir")
 		ignorePattern           = toolkit.GetInput("ignore_pattern", &toolkit.InputOptions{Fallback: "(.git|node_modules)"})
 		bucketName              = toolkit.GetInput("bucket_name", &toolkit.InputOptions{Required: true})
 		keyPrefix               = toolkit.GetInput("key_prefix")
@@ -21,8 +22,7 @@ func main() {
 	)
 
 	os.Setenv("AWS_SDK_LOAD_CONFIG", "1")
-	toolkit.ChdirFromEnv("GITHUB_WORKSPACE")
-	toolkit.ChdirFromEnv("INPUT_BASE_DIR")
+	toolkit.GoToWorkspace(baseDir)
 
 	sess, err := session.NewSession()
 	if err != nil {

@@ -58,7 +58,7 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 		word = "path"
 	}
 
-	toolkit.StartGroup(fmt.Sprintf("%d %s staged for invalidation", length, word))
+	toolkit.StartGroup(fmt.Sprintf("Invalidating %d %s", length, word))
 	defer toolkit.EndGroup()
 
 	if !wildcard && length > 50 {

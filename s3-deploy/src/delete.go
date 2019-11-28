@@ -22,7 +22,7 @@ func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) 
 		word = "file"
 	}
 
-	toolkit.StartGroup(fmt.Sprintf("%v %s staged for deletion", total, word))
+	toolkit.StartGroup(fmt.Sprintf("Deleting %v %s", total, word))
 	defer toolkit.EndGroup()
 
 	var recurse func(p []*string) error

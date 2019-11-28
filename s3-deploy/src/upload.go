@@ -92,7 +92,7 @@ func batchUpload(sess *session.Session, paths []*string, bucket, prefix, acl str
 			word = "file"
 		}
 
-		toolkit.StartGroup(fmt.Sprintf("%v %s staged for upload", total, word))
+		toolkit.StartGroup(fmt.Sprintf("Uploading %v %s", total, word))
 		defer toolkit.EndGroup()
 	}
 
