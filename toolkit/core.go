@@ -65,7 +65,7 @@ func Debug(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
 		Info("::debug file=%s,line=%d::%s", file, line, msg)
 	} else {
-		Info("::debug ::%s", msg)
+		Info("::debug::%s", msg)
 	}
 }
 
@@ -73,7 +73,7 @@ func Warning(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
 		Info("::warning file=%s,line=%d::%s", file, line, msg)
 	} else {
-		Info("::warning ::%s", msg)
+		Info("::warning::%s", msg)
 	}
 }
 
@@ -81,7 +81,7 @@ func Error(msg string) {
 	if _, file, line, ok := runtime.Caller(1); ok {
 		Info("::error file=%s,line=%d::%s", file, line, msg)
 	} else {
-		Info("::error ::%s", msg)
+		Info("::error::%s", msg)
 	}
 }
 
@@ -95,11 +95,11 @@ func Pause() func() {
 }
 
 func StartGroup(key string) {
-	Info("::group ::%s", strings.TrimSpace(key))
+	Info("::group::%s", strings.TrimSpace(key))
 }
 
 func EndGroup() {
-	Info("::endgroup")
+	Info("::endgroup::")
 }
 
 func SaveState(key, val string) {
