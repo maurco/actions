@@ -1,6 +1,6 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/maurerlabs/actions/toolkit v0.0.0-20191128081312-ec3a82076e09 h1:5jZDT8MC1ZvsgFcRgSeyVxiTHdQ03gB1H/xQEY1bAQM=
-github.com/maurerlabs/actions/toolkit v0.0.0-20191128081312-ec3a82076e09/go.mod h1:WbuwtdwRUUvUNfuN5H80+Rjdh232QwYwtSx8GdvL+Nk=
+github.com/maurerlabs/actions/toolkit v0.0.0-20191128083652-b8e1a5fbe88b h1:JK1WfGEu0ATtGKUdV4rufgooOu62NkPAx8Tn8fugzQY=
+github.com/maurerlabs/actions/toolkit v0.0.0-20191128083652-b8e1a5fbe88b/go.mod h1:WbuwtdwRUUvUNfuN5H80+Rjdh232QwYwtSx8GdvL+Nk=
 github.com/otiai10/copy v1.0.2 h1:DDNipYy6RkIkjMwy+AWzgKiNTyj2RUI9yEMeETEpVyc=
 github.com/otiai10/copy v1.0.2/go.mod h1:c7RpqBkwMom4bYTSkLSym4VSJz/XtncWRAj/J4PEIMY=
 github.com/otiai10/curr v0.0.0-20150429015615-9b4961190c95/go.mod h1:9qAhocn7zKJG+0mI8eUu6xqkFDYS2kb2saOteoSB3cE=

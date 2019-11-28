@@ -29,8 +29,6 @@ func main() {
 	extracted := toolkit.ExtractTar(toolkit.DownloadFile(url))
 	cache := toolkit.CacheTool(extracted, name, version, "amd64")
 
-	toolkit.MakeExecutable(cache, "hugo")
-	toolkit.CacheBin(cache, "hugo")
-
+	toolkit.InstallBin(cache, "hugo")
 	toolkit.Command("hugo", "version")
 }
