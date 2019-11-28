@@ -122,7 +122,7 @@ func DownloadFile(url string, options ...*DownloadOptions) string {
 	defer res.Body.Close()
 
 	if res.StatusCode >= 300 {
-		panic(fmt.Sprintf("Received status code %d", res.StatusCode))
+		panic(fmt.Sprintf("Received status code %d for %s", res.StatusCode, url))
 	}
 
 	var outPath string
