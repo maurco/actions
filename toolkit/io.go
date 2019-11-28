@@ -8,6 +8,14 @@ import (
 	"time"
 )
 
+func MakeExecutable(paths ...string) {
+	path := filepath.Join(paths...)
+
+	if err := os.Chmod(path, 0755); err != nil {
+		panic(err)
+	}
+}
+
 func MkdirRand(base string) string {
 	length := 10
 	chars := []rune("abcdefghijklmnopqrstuvwxyz0123456789")
