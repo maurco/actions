@@ -2,9 +2,8 @@ package toolkit
 
 import (
 	"fmt"
-	// "log"
 	"os"
-	// "os/exec"
+	"os/exec"
 )
 
 type ExecOptions struct {
@@ -43,17 +42,17 @@ type ExecOptions struct {
 }
 
 func Command(val string, args ...[]string) {
-	// cmd := exec.Command("hugo", flags...)
-	// cmd.Stdout = os.Stdout
-	// cmd.Stderr = os.Stderr
+	cmd := exec.Command(val, flags...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 
-	// if err := cmd.Start(); err != nil {
-	// 	log.Fatal(err)
-	// }
+	if err := cmd.Start(); err != nil {
+		panic(err)
+	}
 
-	// if err := cmd.Wait(); err != nil {
-	// 	log.Fatal(err)
-	// }
+	if err := cmd.Wait(); err != nil {
+		panic(err)
+	}
 }
 
 func AddFlagFromEnv(flags *[]string, flagFormat int, name, key string) {
