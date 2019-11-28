@@ -247,6 +247,14 @@ func Extract7z() {
 
 }
 
+func CacheBin(paths ...string) {
+	path := filepath.Join(paths...)
+
+	if err := copy.Copy(path, "/usr/local/bin/"); err != nil {
+		panic(err)
+	}
+}
+
 func CacheTool(path, name, version, arch string) string {
 	out := filepath.Join(getCacheDir(), name, version)
 	outArch := filepath.Join(out, arch)

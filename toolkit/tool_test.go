@@ -21,6 +21,10 @@ func TestExtract7z(t *testing.T) {
 
 }
 
+func TestCacheBin(t *testing.T) {
+
+}
+
 func TestCacheTool(t *testing.T) {
 	extracted := ExtractTar(DownloadFile("https://github.com/gohugoio/hugo/releases/download/v0.60.0/hugo_extended_0.60.0_Linux-64bit.tar.gz"))
 	cache := CacheTool(extracted, "hugo", "0.60.0", runtime.GOARCH)
