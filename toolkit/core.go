@@ -13,7 +13,7 @@ type InputOptions struct {
 	Fallback string
 }
 
-func ExportVariable(key, val string) {
+func ExportVar(key, val string) {
 	key = strings.TrimSpace(key)
 
 	os.Setenv(key, val)

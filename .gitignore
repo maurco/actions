@@ -4,3 +4,6 @@
 # go
 *.out
 *.test
+
+# app
+toolkit/_

@@ -49,9 +49,9 @@ func captureOutput(f func()) string {
 	return <-out
 }
 
-func TestExportVariable(t *testing.T) {
+func TestExportVar(t *testing.T) {
 	output := captureOutput(func() {
-		ExportVariable("foo ", "bar")
+		ExportVar("foo ", "bar")
 		assert.Equal(t, os.Getenv("foo"), "bar")
 	})
 	assert.Equal(t, output, "::set-env name=foo::bar\n")
