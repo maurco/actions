@@ -328,5 +328,6 @@ func InstallBin(paths ...string) {
 		}
 	}
 
+	AddPath(pathBin)
 	AddPath(fmt.Sprintf("/home/runner/work/_temp/_github_home/%s", bin))
 }
