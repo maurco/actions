@@ -33,7 +33,7 @@ func GetInput(key string, options ...*InputOptions) string {
 	key = strings.ReplaceAll(strings.TrimSpace(key), " ", "_")
 	envVar := "INPUT_" + strings.ToUpper(key)
 
-	if val, ok := os.LookupEnv(envVar); ok {
+	if val, ok := os.LookupEnv(envVar); ok && val != "" {
 		return val
 	}
 
