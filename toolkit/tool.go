@@ -249,8 +249,9 @@ func Extract7z() {
 
 func CacheBin(paths ...string) {
 	path := filepath.Join(paths...)
+	filename := filepath.Base(path)
 
-	if err := copy.Copy(path, "/usr/local/bin/"); err != nil {
+	if err := copy.Copy(path, "/usr/local/bin/"+filename); err != nil {
 		panic(err)
 	}
 }
