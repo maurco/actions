@@ -49,11 +49,9 @@ func GoToWorkspace(keys ...string) {
 	}
 
 	for _, v := range keys {
-		if val, ok := os.LookupEnv(v); ok && val != "" {
-			err := os.Chdir(val)
-			if err != nil {
-				panic(err)
-			}
+		err := os.Chdir(v)
+		if err != nil {
+			panic(err)
 		}
 	}
 }
