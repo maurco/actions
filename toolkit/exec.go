@@ -42,7 +42,7 @@ type ExecOptions struct {
 }
 
 func Command(val string, args ...[]string) {
-	cmd := exec.Command(val, flags...)
+	cmd := exec.Command(val, args...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
