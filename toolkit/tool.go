@@ -298,8 +298,10 @@ func FindAllVersions() {
 }
 
 func InstallBin(paths ...string) {
+	bin := "bin"
 	path := filepath.Join(paths...)
 	name := filepath.Base(path)
+
 	info, err := os.Stat(path)
 	if err != nil {
 		panic(err)
@@ -310,21 +312,21 @@ func InstallBin(paths ...string) {
 		panic("Cannot find home directory")
 	}
 
-	bin := filepath.Join(home, "bin")
-	if err := os.MkdirAll(bin, os.ModePerm); err != nil {
+	pathBin := filepath.Join(home, bin)
+	if err := os.MkdirAll(pathBin, os.ModePerm); err != nil {
 		panic(err)
 	}
 
-	pathNew := filepath.Join(bin, name)
+	pathNew := filepath.Join(pathBin, name)
 	if err := copy.Copy(path, pathNew); err != nil {
 		panic(err)
 	}
 
 	if !info.IsDir() {
-		if err := os.Chmod(path, 0755); err != nil {
+		if err := os.Chmod(pathNew, 0777); err != nil {
 			panic(err)
 		}
 	}
 
-	AddPath(bin)
+	AddPath(fmt.Sprintf("/home/runner/work/_temp/_github_home/%s", bin))
 }
