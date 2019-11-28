@@ -325,4 +325,6 @@ func InstallBin(paths ...string) {
 			panic(err)
 		}
 	}
+
+	AddPath(bin)
 }
