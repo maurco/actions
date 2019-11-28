@@ -1,1 +1,0 @@
-# Hugo Build GitHub Action
