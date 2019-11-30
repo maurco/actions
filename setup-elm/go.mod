@@ -1,4 +1,4 @@
-module github.com/maurerlabs/actions/setup-hugo
+module github.com/maurerlabs/actions/setup-elm
 
 go 1.13
 

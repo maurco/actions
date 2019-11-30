@@ -1,7 +1,12 @@
-FROM alpine:3
+FROM golang:1-alpine as build
 
-RUN apk update
-RUN apk add --update bash wget
+WORKDIR /app
+COPY src src
+COPY go.mod go.sum ./
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+RUN go build -v -o setup-elm ./...
+
+FROM alpine
+
+COPY --from=build /app/setup-elm /usr/local/bin/
+ENTRYPOINT ["setup-elm"]
