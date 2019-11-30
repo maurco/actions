@@ -387,6 +387,6 @@ func InstallBin(paths ...string) {
 		}
 	}
 
-	AddPath(pathBin)
-	AddPath(fmt.Sprintf("/home/runner/work/_temp/_github_home/%s", bin))
+	AddPath(pathBin)                                                     // To access inside container
+	AddPath(fmt.Sprintf("/home/runner/work/_temp/_github_home/%s", bin)) // To access outside container
 }

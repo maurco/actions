@@ -83,21 +83,24 @@ func batchUpload(sess *session.Session, paths []*string, bucket, prefix, acl str
 	}
 
 	total := len(paths)
+	title := "Nothing to upload"
 
-	if total < 1 {
-		toolkit.Info("Nothing to upload")
-	} else {
+	if total > 0 {
 		word := "files"
 		if total == 1 {
 			word = "file"
 		}
+		title = fmt.Sprintf("Uploading %v %s", total, word)
+	}
 
-		toolkit.StartGroup(fmt.Sprintf("Uploading %v %s", total, word))
-		defer toolkit.EndGroup()
+	toolkit.StartGroup(title)
+	defer toolkit.EndGroup()
+
+	if total < 1 {
+		return nil
 	}
 
 	ctx := aws.BackgroundContext()
-
 	return s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
 		u.Concurrency = 128
 		u.PartSize = UPLOAD_PART_SIZE

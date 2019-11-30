@@ -22,5 +22,7 @@ func main() {
 	cache := toolkit.CacheTool(extracted, "elm", version, "amd64")
 
 	toolkit.InstallBin(cache, "elm")
+
+	fmt.Printf("Installed Elm v")
 	toolkit.Command("elm", "--version")
 }

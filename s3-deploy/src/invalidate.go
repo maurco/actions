@@ -46,24 +46,27 @@ func generatePaths(wildcard bool, prefix string, paths []*string) ([]*string, in
 }
 
 func invalidate(sess *session.Session, id string, wildcard bool, prefix string, paths []*string) error {
-	items, length := generatePaths(wildcard, prefix, paths)
+	items, total := generatePaths(wildcard, prefix, paths)
+	title := "Nothing to invalidate"
 
-	if length < 1 {
-		toolkit.Info("Nothing to invalidate")
+	if total > 0 {
+		word := "paths"
+		if total == 1 {
+			word = "path"
+		}
+		title = fmt.Sprintf("Invalidating %d %s", total, word)
+	}
+
+	toolkit.StartGroup(title)
+	defer toolkit.EndGroup()
+
+	if total < 1 {
 		return nil
 	}
 
-	word := "paths"
-	if length == 1 {
-		word = "path"
-	}
-
-	toolkit.StartGroup(fmt.Sprintf("Invalidating %d %s", length, word))
-	defer toolkit.EndGroup()
-
-	if !wildcard && length > 50 {
-		cost := float64(length) * 0.005
-		toolkit.Warning(fmt.Sprintf("Invalidation will cost ~$%v (%d paths), consider using a wildcard", humanize.CommafWithDigits(cost, 2), length))
+	if !wildcard && total > 50 {
+		cost := float64(total) * 0.005
+		toolkit.Warning(fmt.Sprintf("Invalidation will cost ~$%v (%d paths), consider using a wildcard", humanize.CommafWithDigits(cost, 2), total))
 	}
 
 	ref := strconv.FormatInt(time.Now().UnixNano(), 10)
@@ -72,7 +75,7 @@ func invalidate(sess *session.Session, id string, wildcard bool, prefix string, 
 		InvalidationBatch: &cloudfront.InvalidationBatch{
 			CallerReference: &ref,
 			Paths: &cloudfront.Paths{
-				Quantity: &length,
+				Quantity: &total,
 				Items:    items,
 			},
 		},

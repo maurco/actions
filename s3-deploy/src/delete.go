@@ -12,18 +12,22 @@ import (
 
 func batchDelete(sess *session.Session, paths []*string, bucket, prefix string) error {
 	total := len(paths)
+	title := "Nothing to delete"
+
+	if total > 0 {
+		word := "files"
+		if total == 1 {
+			word = "file"
+		}
+		title = fmt.Sprintf("Deleting %v %s", total, word)
+	}
+
+	toolkit.StartGroup(title)
+	defer toolkit.EndGroup()
+
 	if total < 1 {
-		toolkit.Info("Nothing to delete")
 		return nil
 	}
-
-	word := "files"
-	if total == 1 {
-		word = "file"
-	}
-
-	toolkit.StartGroup(fmt.Sprintf("Deleting %v %s", total, word))
-	defer toolkit.EndGroup()
 
 	var recurse func(p []*string) error
 	recurse = func(p []*string) error {
