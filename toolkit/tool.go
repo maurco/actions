@@ -22,11 +22,11 @@ const (
 )
 
 type DownloadOptions struct {
+	OutputName string
 	OutputPath string
 }
 
 type ExtractOptions struct {
-	OutputPath        string
 	KeepContainerDir  bool
 	DeleteArchiveFile bool
 }
@@ -87,7 +87,7 @@ func collapseContainerDir(path string) {
 		panic(err)
 	}
 
-	if len(files) == 1 && files[0].IsDir() && files[0].Name() == filepath.Base(path) {
+	if len(files) == 1 && files[0].IsDir() {
 		containerDir := filepath.Join(path, files[0].Name())
 		containerDirTemp := filepath.Join(filepath.Dir(path), files[0].Name()+"_TEMP")
 
@@ -127,15 +127,23 @@ func DownloadFile(url string, options ...*DownloadOptions) string {
 
 	var outPath string
 	if len(options) > 0 && options[0].OutputPath != "" {
-		if _, err := os.Stat(options[0].OutputPath); err == nil {
-			panic(fmt.Sprintf("%s already exists", options[0].OutputPath))
-		}
 		outPath = options[0].OutputPath
 	} else {
-		outPath = filepath.Join(MkdirRand(getTempDir()), filepath.Base(url))
+		outPath = MkdirRand(getTempDir())
 	}
 
-	out, err := os.Create(outPath)
+	var outFile string
+	if len(options) > 0 && options[0].OutputName != "" {
+		outFile = filepath.Join(outPath, options[0].OutputName)
+	} else {
+		outFile = filepath.Join(outPath, filepath.Base(url))
+	}
+
+	if _, err := os.Stat(outFile); err == nil {
+		panic(fmt.Sprintf("%s already exists", outFile))
+	}
+
+	out, err := os.Create(outFile)
 	if err != nil {
 		panic(err)
 	}
@@ -146,7 +154,60 @@ func DownloadFile(url string, options ...*DownloadOptions) string {
 		panic(err)
 	}
 
-	return outPath
+	return outFile
+}
+
+func GunzipFile(path string, options ...*ExtractOptions) string {
+	ext := filepath.Ext(path)
+	if ext != ".gz" {
+		panic(fmt.Sprintf("%s is not a gzipped file", path))
+	}
+
+	out := path[:len(path)-len(ext)]
+	if _, err := os.Stat(out); err == nil {
+		panic(fmt.Sprintf("%s already exists", out))
+	}
+
+	f, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
+	r, err := gzip.NewReader(f)
+	if err != nil {
+		panic(err)
+	}
+	defer r.Close()
+
+	o, err := os.Create(out)
+	if err != nil {
+		panic(err)
+	}
+	defer o.Close()
+
+	for {
+		r.Multistream(false)
+		if _, err := io.Copy(o, r); err != nil {
+			panic(err)
+		}
+
+		err := r.Reset(f)
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			panic(err)
+		}
+	}
+
+	if len(options) > 0 && options[0].DeleteArchiveFile {
+		err = os.Remove(path)
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return out
 }
 
 func ExtractZip() {
@@ -156,31 +217,29 @@ func ExtractZip() {
 func ExtractTar(path string, options ...*ExtractOptions) string {
 	re := regexp.MustCompile("(.*)\\.tar(\\.gz)?$")
 	match := re.FindStringSubmatch(path)
-
-	var outPath string
-	if len(options) > 0 && options[0].OutputPath != "" {
-		if _, err := os.Stat(options[0].OutputPath); err == nil {
-			panic(fmt.Sprintf("%s already exists", options[0].OutputPath))
-		}
-		outPath = options[0].OutputPath
-	} else {
-		outPath = match[1]
+	if match == nil {
+		panic(fmt.Sprintf("%s is not a tar archive", path))
 	}
 
-	err := os.MkdirAll(outPath, os.ModePerm)
+	out := match[1]
+	if _, err := os.Stat(out); err == nil {
+		panic(fmt.Sprintf("%s already exists", out))
+	}
+
+	err := os.MkdirAll(out, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}
 
-	file, err := os.Open(path)
+	f, err := os.Open(path)
 	if err != nil {
 		panic(err)
 	}
-	defer file.Close()
+	defer f.Close()
 
-	var r io.ReadCloser = file
+	var r io.ReadCloser = f
 	if match[2] != "" {
-		if r, err = gzip.NewReader(file); err != nil {
+		if r, err = gzip.NewReader(f); err != nil {
 			panic(err)
 		}
 		defer r.Close()
@@ -197,7 +256,7 @@ func ExtractTar(path string, options ...*ExtractOptions) string {
 			continue
 		}
 
-		subpath := filepath.Join(outPath, header.Name)
+		subpath := filepath.Join(out, header.Name)
 
 		switch header.Typeflag {
 		case tar.TypeDir:
@@ -229,8 +288,8 @@ func ExtractTar(path string, options ...*ExtractOptions) string {
 		}
 	}
 
-	if len(options) > 0 && !options[0].KeepContainerDir {
-		collapseContainerDir(outPath)
+	if options == nil || !options[0].KeepContainerDir {
+		collapseContainerDir(out)
 	}
 
 	if len(options) > 0 && options[0].DeleteArchiveFile {
@@ -240,7 +299,7 @@ func ExtractTar(path string, options ...*ExtractOptions) string {
 		}
 	}
 
-	return outPath
+	return out
 }
 
 func Extract7z() {

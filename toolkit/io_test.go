@@ -33,14 +33,12 @@ func TestGoToWorkspace(t *testing.T) {
 	cwd, _ := os.Getwd()
 	assert.NotEqual(t, cwd, d)
 
-	os.Setenv("GITHUB_WORKSPACE", "github-actions")
-	os.Setenv("FOOBAR", "toolkit")
-	GoToWorkspace("FOOBAR")
+	os.Setenv("GITHUB_WORKSPACE", "actions")
+	GoToWorkspace("toolkit")
 
 	cwd, _ = os.Getwd()
 	assert.Equal(t, cwd, d)
 	assert.Panics(t, func() {
-		os.Setenv("FOOBAR", "does-not-exist")
-		GoToWorkspace("FOOBAR")
+		GoToWorkspace("does-not-exist")
 	})
 }
