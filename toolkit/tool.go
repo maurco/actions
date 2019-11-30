@@ -334,7 +334,7 @@ func CacheTool(path, name, version, arch string) string {
 			panic(err)
 		}
 	} else {
-		err = copy.Copy(path, filepath.Join(outArch, filepath.Base(out)))
+		err = copy.Copy(path, filepath.Join(outArch, filepath.Base(path)))
 		if err != nil {
 			panic(err)
 		}
