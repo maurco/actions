@@ -357,7 +357,6 @@ func FindAllVersions() {
 }
 
 func InstallBin(paths ...string) {
-	bin := "bin"
 	path := filepath.Join(paths...)
 	name := filepath.Base(path)
 
@@ -371,7 +370,7 @@ func InstallBin(paths ...string) {
 		panic("Cannot find home directory")
 	}
 
-	pathBin := filepath.Join(home, bin)
+	pathBin := filepath.Join(home, "bin")
 	if err := os.MkdirAll(pathBin, os.ModePerm); err != nil {
 		panic(err)
 	}
@@ -387,6 +386,11 @@ func InstallBin(paths ...string) {
 		}
 	}
 
-	AddPath(pathBin)                                                     // To access inside container
-	AddPath(fmt.Sprintf("/home/runner/work/_temp/_github_home/%s", bin)) // To access outside container
+	// To access inside container
+	AddPath(pathBin)
+
+	if os.Getenv("GITHUB_ACTIONS") == "true" {
+		// To access outside container
+		AddPath("/home/runner/work/_temp/_github_home/bin")
+	}
 }

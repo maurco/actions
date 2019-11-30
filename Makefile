@@ -1,19 +1,23 @@
-VERSION := "latest"
+version := "latest"
 
 publish: build push
 
 format:
-	gofmt -w .
+	gofmt -s -w .
+
+test:
+	go test ./...
 
 build:
 	docker build \
-		-t maurerlabs/action-$(ACTION):$(VERSION) $(ACTION)
+		--build-arg action=$(action) \
+		-t maurerlabs/action-$(action):$(version) .
 
 push:
-	docker push maurerlabs/action-$(ACTION):$(VERSION)
+	docker push maurerlabs/action-$(action):$(version)
 
 run:
 	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		$(FLAGS) maurerlabs/action-$(ACTION):$(VERSION)
+		$(FLAGS) maurerlabs/action-$(action):$(version)
