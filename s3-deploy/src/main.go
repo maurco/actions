@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/maurerlabs/actions/toolkit"
+	"github.com/maurco/actions/toolkit"
 )
 
 func main() {

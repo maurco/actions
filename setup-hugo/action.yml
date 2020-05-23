@@ -10,4 +10,4 @@ inputs:
     required: false
 runs:
   using: docker
-  image: docker://maurerlabs/action-setup-hugo:latest
+  image: docker://maurco/action-setup-hugo:latest

@@ -18,7 +18,7 @@ import (
 const (
 	IS_WINDOWS = runtime.GOOS == "windows"
 	IS_DARWIN  = runtime.GOOS == "darwin"
-	USER_AGENT = "maurerlabs/actions/toolkit"
+	USER_AGENT = "maurco/actions/toolkit"
 )
 
 type DownloadOptions struct {

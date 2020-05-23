@@ -31,4 +31,4 @@ inputs:
     required: false
 runs:
   using: docker
-  image: docker://maurerlabs/action-s3-deploy:latest
+  image: docker://maurco/action-s3-deploy:latest

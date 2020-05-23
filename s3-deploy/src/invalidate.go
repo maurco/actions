@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/cloudfront"
 	"github.com/dustin/go-humanize"
-	"github.com/maurerlabs/actions/toolkit"
+	"github.com/maurco/actions/toolkit"
 )
 
 func generatePaths(wildcard bool, prefix string, paths []*string) ([]*string, int64) {

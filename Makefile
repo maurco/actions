@@ -11,13 +11,13 @@ test:
 build:
 	docker build \
 		--build-arg action=$(action) \
-		-t maurerlabs/action-$(action):$(version) .
+		-t maurco/action-$(action):$(version) .
 
 push:
-	docker push maurerlabs/action-$(action):$(version)
+	docker push maurco/action-$(action):$(version)
 
 run:
 	docker run --rm \
 		-v $(HOME)/.aws:/root/.aws \
 		-v /var/run/docker.sock:/var/run/docker.sock \
-		$(FLAGS) maurerlabs/action-$(action):$(version)
+		$(FLAGS) maurco/action-$(action):$(version)

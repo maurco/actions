@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/dustin/go-humanize"
-	"github.com/maurerlabs/actions/toolkit"
+	"github.com/maurco/actions/toolkit"
 )
 
 const UPLOAD_PART_SIZE = 1024 * 1024 * 10 // 10mb

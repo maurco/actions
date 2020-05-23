@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/maurerlabs/actions/toolkit"
+	"github.com/maurco/actions/toolkit"
 )
 
 const LATEST_VERSION = "0.19.1"

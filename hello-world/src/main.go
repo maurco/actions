@@ -3,7 +3,7 @@ package main
 import (
 	"time"
 
-	"github.com/maurerlabs/actions/toolkit"
+	"github.com/maurco/actions/toolkit"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-module github.com/maurerlabs/actions
+module github.com/maurco/actions
 
 go 1.13
 
